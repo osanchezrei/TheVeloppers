@@ -1,79 +1,48 @@
-body{
+.wrapper {
+  font-size: 0
+}
+.body{
   width-min: 100%;
 }
-nav{
-  display: flex;
+.nav{
+  display: block;
   width: 100%;
+  padding-left: 2%;
 }
 
-nav img{
-  margin: 20px;
-  padding: 20px;;
-}
-
-nav p{
-  margin: 20px;
-  padding: 20px;;
-  font-size:40px;
-}
-
-h1{
+.h1{
   width: 95%;
   font-size: 38px;
   padding-left: 2%;
 }
 
-
 content{
   display: flex;
-  width: 100%;
+  flex-direction: row;
+  width: 75%;
 }
 
 content div{
-  flex: auto;
   display: flex;
+  flex-direction: row;
   min-width: 25%;
 }
 
-content div p{
+/* content div span{
   min-width: 25%;
   margin: 25%;
   padding-top: 1%;
 
-}
+} */
 
-@media screen and (min-width: 1540px) {
-  content div p{
-    font-size: 100%;
-  }
-}
-
-@media screen and (max-width: 1540px) {
-  content div p{
-    font-size: 75%;
-  }
-}
-
-@media screen and (max-width: 1150px) {
-  content div p{
-    font-size: 50%;
-  }
-}
-
-@media screen and (max-width: 775px) {
-  content div p{
-    font-size: 25%;
-  }
-}
-
-content div p:first-child{
+/* content div span:first-child{
   height: 15%;
   border-radius: 15px;
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
-}
+} */
 
 .todo{
   background-color: red;
@@ -85,4 +54,29 @@ content div p:first-child{
 
 .done{
   background-color: green;
+}
+
+
+@media screen and (min-width: 1540px) {
+  .content div p{
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width: 1540px) {
+  .content div p{
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .content div p{
+    font-size: 50%;
+  }
+}
+
+@media screen and (max-width: 775px) {
+  .content div p{
+    font-size: 25%;
+  }
 }
