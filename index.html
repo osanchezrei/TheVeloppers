@@ -7,6 +7,7 @@
     <!--<link href="styles/style-index.css" type="text/css" rel="stylesheet" >-->
     <script src="bootstrap/js/bootstrap.bundel.min.js" crossorigin="anonymous"></script>
     <script src="scripts/load-image.js" defer></script>
+    <script src="scripts/drag-and-drop.js" defer></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" crossorigin="anonymous">
   </head>
@@ -15,8 +16,8 @@
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <input type="file" id="btn" hidden/>
-          <label for="btn" class="ms-5 me-5 mt-1"><img class="img-fluid rounded-circle" src=/img/blank-profile-scaled.png alt="no image"></label>
+          <input type="file" id="btn" onchange="loadImage()" hidden/>
+          <label for="btn" class="ms-5 me-5 mt-1"><img class="img-fluid rounded-circle" id="img" src=/img/blank-profile-scaled.png alt="no image"></label>
         </li>
         <li class="nav-item">
           <a class="nav-link m-1 fw-bold" href="#">Panels</a>
@@ -39,7 +40,7 @@
       <!-- COLUMNAS -->
       <div class="row">
         <!-- PRIMERA COLUMNA -->
-        <div class="col-lg-3 m-4 me-5">
+        <div class="col-lg-3 m-4 me-5" id="col1">
           <div class="row">
             <div class="col-9">
               <span class="badge bg-danger fs-5 ps-5 pe-5">
@@ -54,7 +55,7 @@
             <hr>
           </div>
           <div class="row">
-            <div class="card">
+            <div class="card cursor-move" draggable="true">
                 <div class="card-body">
                 <h5 class="card-title">Some title</h5>
                 <p class="card-text">Some short description</p>
@@ -73,7 +74,7 @@
           </div>
         </div>
          <!-- SEGUNDA COLUMNA -->
-        <div class="col-lg-3 m-4 me-5">
+        <div class="col-lg-3 m-4 me-5" id="col2" ondrop="eventDrop">
           <span class="badge bg-warning fs-5 ps-5 pe-5">
             In Progress
           </span>
@@ -82,7 +83,7 @@
           </div>
         </div>
         <!-- TERCERA COLUMNA -->
-        <div class="col-lg-3 m-4 me-5">
+        <div class="col-lg-3 m-4 me-5" id="col3" ondrop="eventDrop">
           <span class="badge bg-success fs-5 ps-5 pe-5">
             Done
           </span>
