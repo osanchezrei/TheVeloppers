@@ -1,6 +1,12 @@
-//Agrega un panel nuevo (falta pasar por parametro valores titulo, descripción, imagen)
-//
-document.getElementById("new").onclick = function addPanel(){
+
+document.getElementById("new").onclick = function launchModal(){
+    alert("De momento ponemos esto");
+    addPanel(); //Por aquí entrarán los valores que se recojan del formulario
+}
+
+//Agrega un panel nuevo (falta pasar por parametro valores titulo, descripción, imagen, panelID)
+//Se lanza desde Modal
+function addPanel(){
     //Creamos los elementos de cada card
     const element = document.getElementById('columns');
     const col = document.createElement("div");
@@ -40,6 +46,8 @@ document.getElementById("new").onclick = function addPanel(){
     col.appendChild(card);
     element.insertBefore(col, element.firstElementChild);
 }
+
+
 
         // <div class="col-3">
         //   <div class="card w-auto h-100">
