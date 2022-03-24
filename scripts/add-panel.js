@@ -1,7 +1,6 @@
 
 
 document.getElementById("new").onclick = () => {
-    alert("De momento ponemos esto");
     addPanel(); //Por aquí entrarán los valores que se recojan del formulario
 }
 
@@ -54,6 +53,7 @@ function addPanel(){
 
 function removeElement(element){
     var isDelete = () => {
+        $('#removeModal').modal(options)
         //Lanzar modal de confirmación y devolver resultado
     }
     const card = element.parentNode.parentNode.parentNode;
