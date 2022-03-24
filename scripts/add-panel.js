@@ -1,8 +1,11 @@
 
-document.getElementById("new").onclick = function launchModal(){
+
+document.getElementById("new").onclick = () => {
     alert("De momento ponemos esto");
     addPanel(); //Por aquí entrarán los valores que se recojan del formulario
 }
+
+
 
 //Agrega un panel nuevo (falta pasar por parametro valores titulo, descripción, imagen, panelID)
 //Se lanza desde Modal
@@ -34,6 +37,8 @@ function addPanel(){
     goButton.classList.add("btn", "btn-primary")
     goButton.href = "#";
     goButton.innerHTML = "Go to panel";
+    //Añadimos función removeElement al deleteButton para que permita eliminar
+    deleteButton.setAttribute("onclick", "removeElement(this)");
     //Añadimos cada nodo a su padre.
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardDescription);
@@ -44,7 +49,15 @@ function addPanel(){
     card.appendChild(cardBody);
     card.appendChild(cardFooter);
     col.appendChild(card);
-    element.insertBefore(col, element.firstElementChild);
+    element.insertBefore(col, element.firstElementChild); // Añade el panel entre el botón de NEW y el último panel existente
+}
+
+function removeElement(element){
+    var isDelete = () => {
+        //Lanzar modal de confirmación y devolver resultado
+    }
+    const card = element.parentNode.parentNode.parentNode;
+    card.remove();
 }
 
 
