@@ -37,10 +37,10 @@
       <!-- #region COLUMNAS -->
       <div id="columns" class="row mt-5 h-100">
         <!-- #region NEW  BUTTON--> 
-        <div class="col-3 pt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <div class="col-3 pt-5">
           <div id="new" class="w-auto h-100 card border-light">
             <div class="h-100 d-flex align-items-center justify-content-center">
-              <a class="display-6 btn btn-primary-outline stretched-link">+ New</a>
+              <a class="display-6 btn btn-primary-outline stretched-link"  data-bs-toggle="modal" data-bs-target="#newPanelModal">+ New</a>
             </div>
           </div>
         </div>
@@ -66,11 +66,11 @@
         </div>
       <!-- #endregion  -->
       <!-- #region REMOVE MODAL --> 
-      <div class="modal fade" data-bs-backdrop="static" id="removeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" data-bs-backdrop="static" id="removeModal" tabindex="-1" aria-labelledby="removeModal" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Delete Panel</h5>
+              <h5 class="modal-title" id="removeModal">Delete Panel</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -84,7 +84,6 @@
         </div>
       </div>
     <!-- #endregion  -->
-      </div>
     </div>
   </body>
 </html>
