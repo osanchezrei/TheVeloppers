@@ -48,27 +48,35 @@
               </span>
             </div>
             <div class="col-lg-3 fs-5 ">
-              + New
+              <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#newCardModal">
+                + New
+              </button>
             </div>
           </div>
           <div class="row pt-4">
             <hr>
           </div>
-          <div class="row">
-            <div class="card cursor-move" draggable="true">
+          <div class="row" id="destination" draggable="true">
+            <div class="card cursor-move" >
                 <div class="card-body">
                 <h5 class="card-title">Some title</h5>
                 <p class="card-text">Some short description</p>
                 <div class="container m-0 p-0">
                   <div class="row">
                     <div class="col-10">
-                      <button href="#" type="button" class="btn btn-secondary">Edit</button>
+                      <span href="#" type="button"class="badge bg-danger">
+                        Edit
+                      </span>
                     </div>
-                    <div class="col-1 pt-5">
-                      <a href="#" class="card-link"><img src="img/icons-nota-resize.png" calss="img-fluid mt-3"></a>
+                    <div class="col-1">
+                      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editCardModal">
+                        <img src="img/icons-nota-resize.png" calss="img-fluid mt-3">
+                      </button>
                     </div>
-                    <div class="col-1 pt-5">
-                      <a href="#" class="card-link"><img src="img/basura.png" calss="img-fluid mt-3"></a>
+                    <div class="col-1">
+                      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <img src="img/basura.png" calss="img-fluid mt-3">
+                      </button>
                     </div>
                     </div>
                   </div>
@@ -77,7 +85,7 @@
             </div>
           </div>
          <!-- SEGUNDA COLUMNA -->
-        <div class="col-lg-3 m-4 me-5" id="col2" ondrop="eventDrop">
+        <div class="col-lg-3 m-4 me-5" id="col2">
           <span class="badge bg-warning fs-5 ps-5 pe-5">
             In Progress
           </span>
@@ -86,7 +94,7 @@
           </div>
         </div>
         <!-- TERCERA COLUMNA -->
-        <div class="col-lg-3 m-4 me-5" id="col3" ondrop="eventDrop">
+        <div class="col-lg-3 m-4 me-5" id="col3">
           <span class="badge bg-success fs-5 ps-5 pe-5">
             Done
           </span>

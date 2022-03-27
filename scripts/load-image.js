@@ -3,11 +3,11 @@ function loadImage(){
   let reader = new FileReader();
   let element= document.getElementById("img");
   if (file) {
-    reader.readAsDataURL(file );
-    reader.onloadend = function () {
-      element.src = reader.result;
-      element.width=35;
-      element.height=37;
-    }
+      reader.readAsDataURL(file );
+      reader.onloadend = function () {
+        element.src = reader.result;
+        element.width=36;
+        element.height=32;
+      }
   }
 }
