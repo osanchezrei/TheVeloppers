@@ -3,29 +3,33 @@
   <head>
     <title>The Velopments "TO DO"</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="styles/style-panel-selection.css" type="text/css" rel="stylesheet" >
-    <script src="scripts/add-panel.js" defer></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/add-panel.js"></script>
   </head>
   <body>
-    <!-- #region -->NAVIGATION MENU -->
-    <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
+    <!-- #region NAVIGATION MENU -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <img>
+          <input type="file" id="btn" onchange="loadImage()"  hidden/>
+          <label class="ms-5 me-5 mt-1 pe-auto" for="btn" ><img class="img-fluid rounded-circle" id="img" src=/img/blank-profile-scaled.png alt="no image"></label>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Panels</a>
+          <a class="nav-link m-1 fw-bold" href="#">Panels</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Help</a>
+          <a class="nav-link m-1 ms-4 fw-bold" href="#">Help</a>
+        </li>
       </ul>
     </nav>
+    <!-- #endregion -->
     <!-- #region TODO LIST-->
     <div class="container h-100">
-      <h1 class="col-3 mt-5 pt-5 mb-2">Panel Name</h1>
+      <h1 class="col-3 mt-5 pt-5 mb-2">Your Panels</h1>
       <div class="w-100">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
         Nulla quam velit, vulputate eu pharetra nec, 
@@ -47,43 +51,52 @@
         <!-- #endregion -->
       <!-- #endregion -->
       <!-- #region ACCEPT MODAL --> 
-        <div class="modal fade" data-bs-backdrop="static" id="newPanelModal" tabindex="-1" aria-labelledby="newPanel" aria-hidden="true">
+        <div class="modal fade" data-bs-backdrop="static" id="newPanelModal" tabindex="-1" aria-labelledby="newPanelModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Panel</h5>
+                <h5 class="modal-title"  id="newPanelModalLabel">New Panel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <!-- FORM VA AQUI -->
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Title:</label>
+                    <input type="text" class="form-control" id="title">
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Description:</label>
+                    <textarea class="form-control" id="description"></textarea>
+                  </div>
+                </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="createPanel" type="button" data-bs-dismiss="modal" class="btn btn-primary" onclick="createPanelModal()">Save changes</button>
               </div>
             </div>
           </div>
         </div>
       <!-- #endregion  -->
       <!-- #region REMOVE MODAL --> 
-      <div class="modal fade" data-bs-backdrop="static" id="removeModal" tabindex="-1" aria-labelledby="removeModal" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="removeModal">Delete Panel</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to delete this Panel?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Delete</button>
-              <button type="button" class="btn btn-primary">Don't delete</button>
+        <div class="modal fade" data-bs-backdrop="static" id="removeModal" tabindex="-1" aria-labelledby="removeModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="removeModalLabel">Delete Panel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete this Panel?
+              </div>
+              <div class="modal-footer">
+                <button id="deleteButton" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+              </div>
             </div>
           </div>
         </div>
+      <!-- #endregion  -->
       </div>
-    <!-- #endregion  -->
     </div>
   </body>
 </html>

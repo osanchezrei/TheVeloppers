@@ -1,14 +1,11 @@
-
-
-document.getElementById("new").onclick = () => {
-    addPanel(); //Por aquí entrarán los valores que se recojan del formulario
+function createPanelModal(){
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    addPanel(title, description); 
 }
-
-
-
 //Agrega un panel nuevo (falta pasar por parametro valores titulo, descripción, imagen, panelID)
 //Se lanza desde Modal
-function addPanel(){
+function addPanel(title, description){
     //Creamos los elementos de cada card
     const element = document.getElementById('columns');
     const col = document.createElement("div");
@@ -28,8 +25,8 @@ function addPanel(){
     img.className = "card-img-top";
     img.src = "img/placeholder-image.png"
     cardBody.classList.add("card-body", "h-auto");
-    cardTitle.innerHTML = "Title";
-    cardDescription.innerHTML = "Description";
+    cardTitle.innerHTML = title;
+    cardDescription.innerHTML = description;
     cardFooter.classList.add("card-footer", "d-flex", "justify-content-between");
     deleteButton.classList.add("btn", "btn-danger");
     deleteButtonContent.classList.add("bi", "bi-trash");
@@ -38,6 +35,8 @@ function addPanel(){
     goButton.innerHTML = "Go to panel";
     //Añadimos función removeElement al deleteButton para que permita eliminar
     deleteButton.setAttribute("onclick", "removeElement(this)");
+    deleteButton.setAttribute("data-bs-toggle", "modal");
+    deleteButton.setAttribute("data-bs-target", "#removeModal");
     //Añadimos cada nodo a su padre.
     cardBody.appendChild(cardTitle);
     cardBody.appendChild(cardDescription);
@@ -50,14 +49,12 @@ function addPanel(){
     col.appendChild(card);
     element.insertBefore(col, element.firstElementChild); // Añade el panel entre el botón de NEW y el último panel existente
 }
-
+//Función de eliminación de elemento
 function removeElement(element){
-    var isDelete = () => {
-        $('#removeModal').modal(options)
-        //Lanzar modal de confirmación y devolver resultado
+    document.getElementById("deleteButton").onclick = () =>{
+        const card = element.parentNode.parentNode.parentNode;
+        card.remove();
     }
-    const card = element.parentNode.parentNode.parentNode;
-    card.remove();
 }
 
 
