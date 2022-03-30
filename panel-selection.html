@@ -8,7 +8,7 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="scripts/load-image.js" defer></script>
     <script src="scripts/drag-and-drop.js" defer></script>
-    <script src="scripts/delete-task.js" defer></script>
+    <script src="scripts/create-task.js" defer></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" crossorigin="anonymous">
 
@@ -58,18 +58,18 @@
           <div class="row pt-4">
             <hr>
           </div>
-          <div class="row" id="destination" draggable="true">
+          <div class="row" draggable="true">
             <div class="card cursor-move" >
                 <div class="card-body">
-                <h5 class="card-title">Some title</h5>
-                <p class="card-text">Some short description</p>
-                <div class="container m-0 p-0">
-                  <div class="row">
-                    <div class="col-10">
-                      <span href="#" type="button"class="badge bg-danger">
-                        Edit
-                      </span>
-                    </div>
+                  <h5 class="card-title">Some title</h5>
+                  <p class="card-text">Some short description</p>
+                  <div class="container m-0 p-0">
+                    <div class="row">
+                      <div class="col-10">
+                        <span href="#" type="button"class="badge bg-danger">
+                          Edit
+                        </span>
+                      </div>
                     <div class="col-1">
                       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editTaskModal">
                         <img src="img/icons-nota-resize.png" calss="img-fluid mt-3">
@@ -125,13 +125,17 @@
                   </div>
                   <div class="mb-3">
                     <label for="message-text" class="col-form-label">Priority</label>
-                    <textarea class="form-control" id="description"></textarea>
+                    <select id="priority" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                      <option value="1">Low</option>
+                      <option value="2">Medim</option>
+                      <option value="3">Higth</option>
+                    </select>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button id="createPanel" type="button" data-bs-dismiss="modal" class="btn btn-primary" onclick="createPanelModal()">Save changes</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-primary" id="saveNewTask">Save changes</button>
               </div>
             </div>
           </div>
