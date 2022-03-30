@@ -1,3 +1,19 @@
+let column;
+
+function discoverColumn(n){
+  if(n === "TODO"){
+    column= "TODO";
+  }
+  else if(n === "INPROGRESS"){
+    column= "INPROGRESS";
+  }
+  else{
+    column= "DONE";
+  }
+  console.log(column);
+}
+
+
 function createTask(){
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
@@ -53,21 +69,23 @@ function addTask(titulo, descripcion, priority){
     editButton.setAttribute("type", "button");
     editButton.setAttribute("data-bs-toggle", "modal");
     editButton.setAttribute("data-bs-target", "#editTaskModal");
-    editButton.setAttribute("onclick", "editElement(this)");
-    imgEditButton.classList.add("img-fluid", "mt-3");
+    //editButton.setAttribute("onclick", "editElement(this)");
+    imgEditButton.classList.add("mt-3");
     imgEditButton.src= "img/icons-nota-resize.png";
     col3.classList.add("col-1");
     deleteButton.classList.add("btn");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("data-bs-toggle", "modal");
-    deleteButton.setAttribute("data-bs-target", "#deleteTaskModal");
-    deleteButton.setAttribute("onclick", "removeElement(this)");
-    imgDeleteButton.classList.add("img-fluid", "mt-3");
+    deleteButton.setAttribute("data-bs-target", "#removeTaskModal");
+    //deleteButton.setAttribute("onclick", "removeElement(this)");
+    imgDeleteButton.classList.add("mt-3");
     imgDeleteButton.src= "img/basura.png";
 
 
+
+
+
 //add parents
-    //element.appendChild(row);
     row.appendChild(card);
     card.appendChild(cardBody);
     cardBody.appendChild(title);
