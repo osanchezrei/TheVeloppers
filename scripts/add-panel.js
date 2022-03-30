@@ -1,7 +1,7 @@
 function createPanelModal(){
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
-    addPanel(title, description); 
+    addPanel(title, description);
 }
 //Agrega un panel nuevo (falta pasar por parametro valores titulo, descripción, imagen, panelID)
 //Se lanza desde Modal
@@ -19,7 +19,13 @@ function addPanel(title, description){
     const deleteButtonContent = document.createElement("i");
     const goButton = document.createElement("a");
     const newButton = document.getElementById("new");
-    //Añadimos las clases 
+
+    
+
+
+
+
+    //Añadimos las clases
     col.classList.add("col-3", "pt-5");
     card.classList.add("card", "w-auto", "h-100");
     img.className = "card-img-top";
