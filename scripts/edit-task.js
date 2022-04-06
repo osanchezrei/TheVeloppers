@@ -11,8 +11,34 @@ function editCancel(){
 
 function editSave(){
   const card = document.getElementById("editting");
-  //TODO
+  card.firstElementChild.firstElementChild.textContent= document.getElementById("titleEdit").value; //modificamos el titulo
+  card.firstElementChild.firstElementChild.nextSibling.textContent= document.getElementById("descriptionEdit").value; //modificamos la descripcion
+  const prioridad= document.getElementById("priorityEdit").value;
+  const priotityElement= card.firstElementChild.firstElementChild.nextSibling.nextSibling.firstElementChild.firstElementChild.firstElementChild;
+  if(prioridad==="1"){
+    deleteBackground(priotityElement);
+    priotityElement.textContent= "Low"
+    priotityElement.classList.add("bg-success");
+  }
+  else if(prioridad==="2"){
+    deleteBackground(priotityElement);
+    priotityElement.textContent= "Medium"
+    priotityElement.classList.add("bg-warning");
+  }
+  else{
+    deleteBackground(priotityElement);
+    priotityElement.textContent= "Hight"
+    priotityElement.classList.add("bg-danger");
+  }
+  //card.firstElementChild.firstElementChild.nextSibling.nextSibling.firstElementChild.firstElementChild.firstElementChild.textContent= document.getElementById("priorityEdit").value;
   card.removeAttribute("id");
+}
+
+
+function deleteBackground(element){
+  element.classList.remove("bg-success");
+  element.classList.remove("bg-warning");
+  element.classList.remove("bg-danger");
 }
 
 

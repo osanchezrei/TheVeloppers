@@ -5,7 +5,9 @@ function eventDrop(e) {
   e.stopPropagation(); //detenemos las posibles redirecciones de los enlaces
   e.preventDefault(); //deshabilitamos el comportamiento por defecto del navegador
   let data = e.dataTransfer.getData('text');
-  e.target.appendChild(document.getElementById(data));
+  if(e.target.classList.contains("col-lg-3")){
+    e.target.appendChild(document.getElementById(data));
+  }
 }
 
 function eventDragOver(e) {
