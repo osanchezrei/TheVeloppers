@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');// requerimos mongose
+const mongoose = require('mongoose');// requerimos mongoose
 
 function connectMongoDB(){
   //creamos el connection string para conectar con el servidor atlas
