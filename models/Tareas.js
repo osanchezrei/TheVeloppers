@@ -4,7 +4,7 @@ const Panel = require('./Panel');
 //import Panel from './Panel.js';
 
 const tareasSchema = new mongoose.Schema({
- id: Number,
+ //id: Number,
  titulo: String,
  descripcion: String,
  estado: String,

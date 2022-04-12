@@ -1,6 +1,6 @@
 const Panel= require('../models/Panel.js');
 const mongoose= require('mongoose');
-const { graphql} = require('graphql');
+const { graphql, parseConstValue} = require('graphql');
 
 const resolvers = {
   Query:{
@@ -18,11 +18,20 @@ const resolvers = {
   Mutation: {
     async createPanel({ titulo, descripcion }) {
       const newPanel= new Panel({ titulo, descripcion });
-      return createdPanel= await newPanel.save();
-    }
-
+      return createdPanel= await newPanel.save()
+    },
     //deletePanel
+    async deletePanel(_, { id }){
+      await Panel.deleteOne({_id: id})
+    },
+
     //updatePanel
+    async updatePanel (_, {id, titulo, descripcion}){
+      const panel = await Panel.findOne({id})
+      panel.titulo = titulo
+      panel.descripcion = descripcion
+      return updatedPanel = await panel.save()
+    }
   }
 
 }

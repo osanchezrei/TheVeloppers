@@ -2,8 +2,8 @@ const Tarea= require('../models/Tareas.js')
 
 
 const getTareaByPanel= (query) => {
-  return Tarea.find({idPanel: query.idPanel}, function(err, response)){
-    if(err) return err
+  return Tarea.find({idPanel: query.idPanel}, function(err, response){
+    if(err) return err;
     return response;
   })
 }
