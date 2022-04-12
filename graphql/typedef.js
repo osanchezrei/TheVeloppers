@@ -8,14 +8,16 @@ const { resolvers }= (require('../controllers/PanelController'))
 const root = {
   getPanelByid: resolvers.Query.getPanelByid,
   getAllPanels: resolvers.Query.getAllPanels,
-  createPanel: resolvers.Mutation.createPanel
+  createPanel: resolvers.Mutation.createPanel,
+  deletePanel: resolvers.Mutation.deletePanel,
+  updatePanel: resolvers.Mutation.updatePanel
 };
 
 //esquemas graphql
 const schema = buildSchema(`
   type Tarea {
     id: ID!
-    idPanel: Int
+    idPanel: String
     titulo: String
     descripcion: String
     estado: String
@@ -27,11 +29,13 @@ const schema = buildSchema(`
     descripcion: String!
   }
   type Query{
-    getPanelByid(id: Int!): Panel
+    getPanelByid(id: ID!): Panel
     getAllPanels:[ Panel ]
   }
   type Mutation{
     createPanel(titulo: String!, descripcion: String!): Panel
+    updatePanel(id: ID!, titulo: String!, descripcion: String!): Panel
+    deletePanel(id: ID!): Panel
   }
 `);
 
