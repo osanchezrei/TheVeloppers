@@ -1,10 +1,7 @@
-const mongoose= require('mongoose');
-//const { Schema } = mongoose;
+const mongoose= require('mongoose'); 
 const Panel = require('./Panel');
-//import Panel from './Panel.js';
 
 const tareasSchema = new mongoose.Schema({
- //id: Number,
  titulo: String,
  descripcion: String,
  estado: String,
@@ -13,5 +10,3 @@ const tareasSchema = new mongoose.Schema({
 });
 
 module.exports= Tarea= mongoose.model('Tarea', tareasSchema);
-
-//exports.Tarea= Tarea;
