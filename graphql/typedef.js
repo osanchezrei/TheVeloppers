@@ -11,7 +11,13 @@ const root = {
   getAllPanels: resolvers.Query.getAllPanels,
   createPanel: resolvers.Mutation.createPanel,
   deletePanel: resolvers.Mutation.deletePanel,
-  updatePanel: resolvers.Mutation.updatePanel
+  updatePanel: resolvers.Mutation.updatePanel,
+  getAllTareas: resolversTareas.Query.getAllTareas,
+  getTareasByPanel: resolversTareas.Query.getTareasByPanel,
+  getTareaById: resolversTareas.Query.getTareaById,
+  createTarea: resolversTareas.Mutation.createTarea,
+  updateTarea: resolversTareas.Mutation.updateTarea,
+  deleteTarea: resolversTareas.Mutation.deleteTarea,
 };
 
 //esquemas graphql

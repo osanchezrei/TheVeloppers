@@ -3,7 +3,6 @@ const { graphql, parseConstValue} = require('graphql');
 
 const resolvers = {
   Query:{
-
     async getPanelByid(_, { id }){
       const panel= await Panel.findOne({ id });
       return panel;
@@ -32,7 +31,14 @@ const resolvers = {
 
     //updatePanel
     async updatePanel( {id, titulo, descripcion}){
-      return panel = await Panel.findOneAndUpdate({id}, {titulo, descripcion}, {new: true});
+      const panel = await Panel.findOneAndUpdate({id}, {titulo, descripcion}, {new: true})
+      .then( () =>
+        console.log("Panel Updated")
+      )
+      .catch( (err) =>
+        console.log(err)
+      )
+      return panel
     }
 
   }

@@ -9,13 +9,13 @@ const resolversTareas= {
       return tareas;
     },
 
-    async getTareasByPanel(_, {idPanel }){
+    async getTareasByPanel({idPanel}){
       const tareas= await Tarea.find({idPanel});
       return tareas;
     },
 
-    async getTareaById(_, {id}){
-      const tarea= await Tarea.findOne({ id });
+    async getTareaById({id}){
+      const tarea= await Tarea.findById(id);
       return tarea;
     }
   },
@@ -31,9 +31,9 @@ const resolversTareas= {
     },
 
     async deleteTarea({id}){
-      const tarea= await Tarea.deleteOne({ id })
+      const tarea= await Tarea.findByIdAndDelete(id)
       .then( () =>
-        console.log("Delete data")
+        console.log("Deleted Object: " + id)
       )
       .catch( (err) =>
         console.log(err)
@@ -44,3 +44,6 @@ const resolversTareas= {
 }
 
 exports.resolversTareas= resolversTareas;
+
+
+
