@@ -1,8 +1,9 @@
 const { graphqlHTTP }= require('express-graphql'); //grphql express
 const { graphql, buildSchema } = require('graphql'); //requerimos graphql
-const Tarea= (require('../models/Tareas'))
-const Panel= (require('../models/Panel'))
-const { resolvers }= (require('../controllers/PanelController'))
+const Tarea= (require('../models/Tareas'));
+const Panel= (require('../models/Panel'));
+const { resolvers }= (require('../controllers/PanelController'));
+const { resolversTareas }= (require('../controllers/TareasController'));
 
 
 const root = {
@@ -34,8 +35,8 @@ const schema = buildSchema(`
   }
   type Mutation{
     createPanel(titulo: String!, descripcion: String!): Panel
-    updatePanel(id: ID!, titulo: String!, descripcion: String!): Panel
-    deletePanel(id: ID!): Panel
+    updatePanel(id: ID!, titulo: String, descripcion: String): Panel
+    deletePanel(id: ID!, titulo: String, descriptcion: String): Panel
   }
 `);
 

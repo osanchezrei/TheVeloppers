@@ -5,7 +5,7 @@ const resolvers = {
   Query:{
 
     async getPanelByid(_, { id }){
-      const panel= await Panel.findOne({"_id": id });
+      const panel= await Panel.findOne({ id });
       return panel;
     },
 
@@ -21,7 +21,7 @@ const resolvers = {
     },
     //deletePanel
     async deletePanel({ id }){
-      const panel= await Panel.deleteOne({"_id": id })
+      const panel= await Panel.deleteOne({ id })
       .then( () =>
         console.log("Delete data")
       )
@@ -30,13 +30,11 @@ const resolvers = {
       )
     },
 
-    //updatePanel, no probado
+    //updatePanel
     async updatePanel( {id, titulo, descripcion}){
-      const panel = await Panel.findOne({"_id" : id });
-      panel.titulo = { titulo };
-      panel.descripcion = { descripcion };
-      return updatedPanel = await panel.save();
+      return panel = await Panel.findOneAndUpdate({id}, {titulo, descripcion}, {new: true});
     }
+
   }
 
 }

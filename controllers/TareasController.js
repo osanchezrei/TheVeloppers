@@ -9,13 +9,13 @@ const resolversTareas= {
       return tareas;
     },
 
-    async getTareasByPanel(_, {idPanel}){
-      const tareas= await Tarea.find({"idPanel": idPanel});
+    async getTareasByPanel(_, {idPanel }){
+      const tareas= await Tarea.find({idPanel});
       return tareas;
     },
 
     async getTareaById(_, {id}){
-      const tarea= await Tarea.findOne({"_id": id});
+      const tarea= await Tarea.findOne({ id });
       return tarea;
     }
   },
@@ -26,17 +26,12 @@ const resolversTareas= {
       return createdTarea= await tarea.save();
     },
 
-    async updateTarea({titulo, descripcion, estado, prioridad}){
-      const tarea = await Tarea.findOne({"_id" : id });
-      tarea.titulo = { titulo };
-      tarea.descripcion = { descripcion };
-      tarea.estado = { estado };
-      tarea.prioridad = { prioridad };
-      return updatedTarea = await tarea.save();
+    async updateTarea({id, titulo, descripcion, estado, prioridad}){
+      return tarea= await Tarea.findOneAndUpdate({id}, {titulo, descripcion, estado, prioridad}, {new: true});
     },
 
     async deleteTarea({id}){
-      const tarea= await Tarea.deleteOne({"_id": id })
+      const tarea= await Tarea.deleteOne({ id })
       .then( () =>
         console.log("Delete data")
       )
