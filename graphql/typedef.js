@@ -38,33 +38,20 @@ const schema = buildSchema(`
   type Query{
     getPanelByid(id: ID!): Panel
     getAllPanels:[ Panel ]
+    getAllTareas: [ Tarea ]
+    getTareasByPanel(id: ID!): [ Tarea ]
+    getTareaById(id: ID!): Tarea
   }
   type Mutation{
     createPanel(titulo: String!, descripcion: String!): Panel
     updatePanel(id: ID!, titulo: String, descripcion: String): Panel
     deletePanel(id: ID!, titulo: String, descriptcion: String): Panel
+    createTarea(titulo: String!, descripcion: String!, estado: String!, prioridad: String!): Tarea
+    updateTarea(id: ID!, titulo: String, descripcion: String, estado: String, prioridad: String): Tarea
+    deleteTarea(id: ID!): Tarea
   }
 `);
 
 
 exports.schema= schema;
 exports.root= root;
-
-
-/*
-type Query {
-  getPanelByid(id: Int!): Panel
-  getTareaByPanel(id: Int!): tareasS0chema
-}
-
-*/
-
-/*var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-const root = {
-  panel: getPanelByPanel;
-};*/
