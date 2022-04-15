@@ -1,28 +1,35 @@
+document.addEventListener("DOMContentLoaded", function(event) {    
 
-var panelArray = new Array();
-
-document.addEventListener("DOMContentLoaded", function(event) { 
     document.getElementById('createPanel').onclick = function createPanel() {
         const title = document.getElementById("title").value
-        const description = document.getElementById("description").value
-        
-        fetch('http://localhost:3000/graphql', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: `query:{
-                getAllPanels()
-              }` 
-            }),
-          })
-          .then(res => res.json())           
-          .then(res => console.log(res.data))
-          .catch(err => console.log(err))
-    
+        const description = document.getElementById("description").value    
         var newPanel = new Object(Panel)
         newPanel.addPanel(title, description)
         document.getElementById("newPanelForm").reset()
     }
 });
+
+fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: ` query{
+                getAllPanels{
+                  titulo
+                  descripcion
+                  id
+                }
+              }`}),
+          })
+    .then(res => res.json())           
+    .then(res => () => {
+        res.forEach(element => {
+            let newPanel = new Object(Panel)
+            console.log(element)
+
+            //newPanel.addPanel(element.data.title, element.data.description)
+        });
+    })
+    .catch(err => console.log(err))
 
 const Panel = {
     panelCounter : '0',
@@ -70,7 +77,7 @@ const Panel = {
         col.appendChild(card)
         element.insertBefore(col, element.firstElementChild)// Añade el panel entre el botón de NEW y el último panel existente
     }
-};
+}
 
 
 //Función de eliminación de elemento
