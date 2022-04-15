@@ -9,28 +9,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 });
 
-fetch('http://localhost:3000/graphql', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: ` query{
-                getAllPanels{
-                  titulo
-                  descripcion
-                  id
-                }
-              }`}),
-          })
-    .then(res => res.json())           
-    .then(res => () => {
-        res.forEach(element => {
-            let newPanel = new Object(Panel)
-            console.log(element)
-
-            //newPanel.addPanel(element.data.title, element.data.description)
-        });
-    })
-    .catch(err => console.log(err))
-
 const Panel = {
     panelCounter : '0',
     addPanel(title, description){
@@ -87,3 +65,26 @@ function removeElement(element){
         card.remove();
     }
 }
+
+//Carga de todos los paneles al cargar la página
+fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: ` query{
+                getAllPanels{
+                  titulo
+                  descripcion
+                  id
+                }
+              }`}),
+          })
+    .then(res => res.json())           
+    .then(res => {
+        for (let i = 0; i < res.data.getAllPanels.length; i++){
+            let newPanel = new Object(Panel)
+            let titulo = res.data.getAllPanels[0].titulo
+            let descripcion = res.data.getAllPanels[0].descripcion
+            newPanel.addPanel(titulo, descripcion)
+        } 
+    })
+    .catch(err => console.log(err))
