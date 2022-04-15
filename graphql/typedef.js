@@ -39,7 +39,7 @@ const schema = buildSchema(`
     getPanelByid(id: ID!): Panel
     getAllPanels:[ Panel ]
     getAllTareas: [ Tarea ]
-    getTareasByPanel(id: ID!): [ Tarea ]
+    getTareasByPanel(idPanel: ID!): [ Tarea ]
     getTareaById(id: ID!): Tarea
   }
   type Mutation{

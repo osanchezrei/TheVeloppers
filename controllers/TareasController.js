@@ -8,12 +8,10 @@ const resolversTareas= {
       const tareas = await Tarea.find({});
       return tareas;
     },
-
     async getTareasByPanel({idPanel}){
       const tareas= await Tarea.find({idPanel});
       return tareas;
     },
-
     async getTareaById({id}){
       const tarea= await Tarea.findById(id);
       return tarea;
@@ -44,6 +42,3 @@ const resolversTareas= {
 }
 
 exports.resolversTareas= resolversTareas;
-
-
-
