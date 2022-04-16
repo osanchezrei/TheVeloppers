@@ -1,17 +1,36 @@
+const panelArray = []
+
 document.addEventListener("DOMContentLoaded", function(event) {    
 
+    //añade un panel usando mutation.createPanel(), si no salta error lo carga en la página
     document.getElementById('createPanel').onclick = function createPanel() {
         const title = document.getElementById("title").value
         const description = document.getElementById("description").value    
-        var newPanel = new Object(Panel)
-        newPanel.addPanel(title, description)
-        document.getElementById("newPanelForm").reset()
+        fetch('http://localhost:3000/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/graphql' },
+            body: 
+            `mutation{
+                createPanel(
+                    titulo: "${title}", 
+                    descripcion: "${description}"
+                ){id}
+            }`
+        })
+        .then(res => res.json())  
+        .then(res => {
+            console.log(res.data.createPanel.id)
+            var newPanel = new Object(Panel)
+            newPanel.addPanel(title, description, res.data.createPanel.id)
+            document.getElementById("newPanelForm").reset()
+        })          
+        .catch(err => console.log(err))
     }
 });
 
 const Panel = {
-    panelCounter : '0',
-    addPanel(title, description){
+    addPanel(title, description, id){
+        const panelId = id
         //Creamos un objeto panel
         const element = document.getElementById('columns')
         const col = document.createElement("div")
@@ -37,10 +56,9 @@ const Panel = {
         deleteButton.classList.add("btn", "btn-danger")
         deleteButtonContent.classList.add("bi", "bi-trash")
         goButton.classList.add("btn", "btn-primary")
-        goButton.href = "/panel_" + this.panelCounter
+        goButton.href = "/" + id
         goButton.innerHTML = "Go to panel"
         //Añadimos función removeElement al deleteButton para que permita eliminar
-        deleteButton.setAttribute("onclick", "removeElement(this)")
         deleteButton.setAttribute("data-bs-toggle", "modal")
         deleteButton.setAttribute("data-bs-target", "#removeModal")
         //Añadimos cada nodo a su padre.
@@ -57,13 +75,27 @@ const Panel = {
     }
 }
 
+//Funcion de elminación de 
+function removePanel(){
+    fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/graphql' },
+        body: 
+        `mutation{
+            deletePanel("${id}"){id}
+        }`
+    })
+    .then(res => res.json())  
+    .then(res => {
+        
+    })          
+    .catch(err => console.log(err))
+}
 
-//Función de eliminación de elemento
-function removeElement(element){
-    document.getElementById("deleteButton").onclick = () =>{
-        const card = element.parentNode.parentNode.parentNode;
-        card.remove();
-    }
+//Función de eliminación de elemento CARD
+function removeHTMLElement(element){
+    const card = element.parentNode.parentNode.parentNode;
+    card.remove();
 }
 
 //Carga de todos los paneles al cargar la página
@@ -82,9 +114,11 @@ fetch('http://localhost:3000/graphql', {
     .then(res => {
         for (let i = 0; i < res.data.getAllPanels.length; i++){
             let newPanel = new Object(Panel)
-            let titulo = res.data.getAllPanels[0].titulo
-            let descripcion = res.data.getAllPanels[0].descripcion
-            newPanel.addPanel(titulo, descripcion)
+            let titulo = res.data.getAllPanels[i].titulo
+            let descripcion = res.data.getAllPanels[i].descripcion
+            let id = res.data.getAllPanels[i].id;
+            newPanel.addPanel(titulo, descripcion, id)
+            panelArray.push(newPanel)
         } 
     })
     .catch(err => console.log(err))
