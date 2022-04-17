@@ -1,10 +1,18 @@
 const { addTask } = require('./create-task');  //importamos la funcion addTask del modulo create Task para poder reutilizarla
 
 
-const panelId= window.location.substring(1);  //recuperamos el id del panel el cual hemos pasado como get en la url
+let panelId;
+export function getUrlGet(){
+  const url= document.location.search;
+  panelId= url.substring(1);
+}
 
 
-function addTaskDB(titulo, descripcion, priority, estado, id) {
+
+//const panelId= window.location.substring(1);  //recuperamos el id del panel el cual hemos pasado como get en la url
+
+
+/*function addTaskDB(titulo, descripcion, priority, estado, id) {
   let element;
   //crear elementos
   if (column === "TODO" || estado == "TODO") {
@@ -125,9 +133,9 @@ function loadTask(id){
       .catch(err => console.log(err))
 })
 }
-
+*/
 //añadir tarea a la base de datos
-function saveTareaDB(title, desciption, estado, prioridad){
+export function saveTareaDB(title, desciption, estado, prioridad){
 fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/graphql' },
@@ -150,7 +158,7 @@ fetch('http://localhost:3000/graphql', {
 })
 .catch(err => console.log(err))
 }
-}
 
 
-module.exports.saveTareaDB= saveTareaDB;
+
+//module.exports= saveTareaDB;

@@ -1,6 +1,12 @@
-//const saveTareaDB = require('./tareasController.js');
-
 let column;
+let panelId;
+
+function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
+  const url= document.location.search;
+  panelId= url.substring(1);
+}
+
+window.onload= getUrlGet; //nada mas cargar la ventana lanzamos la funcion para obtner la id del panel
 
 function discoverColumn(n) {
   if (n === "TODO") {
@@ -115,12 +121,40 @@ function addTask(titulo, descripcion, priority) {
   deleteButton.appendChild(imgDeleteButton);
   element.appendChild(row);
   setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
-  //saveTareaDB(titulo, descripcion, estado, priority);
+  //console.log(titulo, descripcion, estado, priority, panelId);
+  saveTareaDB(titulo, descripcion, estado, priority, panelId);
 }
+
+//añadir tarea a la base de datos
+function saveTareaDB(title, desciption, estado, prioridad, idPanel){
+fetch('http://localhost:3000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/graphql' },
+    body:
+        `mutation{
+        createTarea(
+            titulo: "${title}",
+            descripcion: "${description}"
+            estado: "${estado}"
+            prioridad: "${prioridad}"
+            idPanel: "${idPanel}"
+        ){id}
+    }`
+})
+.then(res => res.json())
+.then(res => {
+    console.log(res);
+    console.log(res.id);  //no consigo recuperar la id
+})
+.catch(err => console.log(err))
+}
+
 
 //añadir la funcionalidad al boton
 const saveNewTask = document.getElementById("saveNewTask");
 saveNewTask.addEventListener("click", createTask);
+
+
 
 //recupera todas las tareas, no lo necesitamos en principio
 function getAllTareasFromDB(){
@@ -140,7 +174,8 @@ function getAllTareasFromDB(){
   .then(res => res.json())
   .then(res => {
     console.log(res)
-    addTask(res.data.titulo, res.data.descripcion, res.data.priority)
+    console.log(res.id)
+    //addTask(res.data.titulo, res.data.descripcion, res.data.priority)
   })
   .catch(err => console.log(err))
 }

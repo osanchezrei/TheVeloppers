@@ -46,7 +46,7 @@ const schema = buildSchema(`
     createPanel(titulo: String!, descripcion: String!): Panel
     updatePanel(id: ID!, titulo: String, descripcion: String): Panel
     deletePanel(id: ID!, titulo: String, descriptcion: String): Panel
-    createTarea(titulo: String!, descripcion: String!, estado: String!, prioridad: String!): Tarea
+    createTarea(titulo: String!, descripcion: String!, estado: String!, prioridad: String!, idPanel: String!): Tarea
     updateTarea(id: ID!, titulo: String, descripcion: String, estado: String, prioridad: String): Tarea
     deleteTarea(id: ID!): Tarea
   }
