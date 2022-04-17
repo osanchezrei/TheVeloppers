@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             body:
                 `mutation{
                 createPanel(
-                    titulo: "${title}", 
+                    titulo: "${title}",
                     descripcion: "${description}"
                 ){id}
             }`
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             deleteButton.classList.add("btn", "btn-danger", "deletePanel")
             deleteButtonContent.classList.add("bi", "bi-trash")
             goButton.classList.add("btn", "btn-primary")
-            goButton.href = "/" + id
+            goButton.href = "/" + 'panel-selection.html' + '?' + id  //redirecciona a  las tareas
             goButton.innerHTML = "Go to panel"
             //Añadimos función removeElement al deleteButton para que permita eliminar
             deleteButton.setAttribute("id", id)

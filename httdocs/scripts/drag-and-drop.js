@@ -6,7 +6,7 @@ function eventDrop(e) {
   e.preventDefault(); //deshabilitamos el comportamiento por defecto del navegador
   let data = e.dataTransfer.getData('text');
   if(e.target.classList.contains("col-lg-3")){
-    e.target.appendChild(document.getElementById(data));
+    e.target.appendChild(document.getElementsByClassName(data)[0]);
   }
 }
 
@@ -20,15 +20,18 @@ function eventDragOver(e) {
 function eventDragStart(e) {
   this.style.opacity = '0.4'; //se baja la opacidad
   e.dataTransfer.effetAllowed= 'move';
-  this.id = 'arrastrado';
+  //this.id = 'arrastrado';
+  this.classList.add('arrastrado');
   //e.setAttribute("id", "arrastrado");
-  e.dataTransfer.setData('text', this.id);  //capturamos el contenido del elemento arrastrado
+  //e.dataTransfer.setData('text', this.id);  //capturamos el contenido del elemento arrastrado
+  e.dataTransfer.setData('text', this.classList);
 }
 
 //dejamos la opacidad como estaba antes del inicio del evento
 function eventDragEnd(e) {
   this.style.opacity = '1';
-  this.removeAttribute("id");
+  //this.removeAttribute("id");
+  this.classList.remove('arrastrado');
 }
 
 //asignar las anteriores funciones a los elementos que son draggables, lo creamos en un funcion que se llamara al cargar la pagina

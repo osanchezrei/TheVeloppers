@@ -1,42 +1,20 @@
-//const saveTareaDB = require('./tareasController.js');
-
-let column;
-
-function discoverColumn(n) {
-  if (n === "TODO") {
-    column = "TODO";
-  }
-  else if (n === "INPROGRESS") {
-    column = "INPROGRESS";
-  }
-  else {
-    column = "DONE";
-  }
-}
+const { addTask } = require('./create-task');  //importamos la funcion addTask del modulo create Task para poder reutilizarla
 
 
-function createTask() {
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const priority = document.getElementById("priority").value;
-  addTask(title, description, priority);
-}
+const panelId= window.location.substring(1);  //recuperamos el id del panel el cual hemos pasado como get en la url
 
-function addTask(titulo, descripcion, priority) {
+
+function addTaskDB(titulo, descripcion, priority, estado, id) {
   let element;
-  let estado;
   //crear elementos
   if (column === "TODO" || estado == "TODO") {
     element = document.getElementById("col1");
-    estado = "TODO";
   }
   else if (column === "INPROGRESS" || estado == "INPROGRESS") {
     element = document.getElementById("col2");
-    estado = "INPROGRESS";
   }
   else {
     element = document.getElementById("col3");
-    estado = "DONE";
   }
   const row = document.createElement("div");
   const card = document.createElement("div");
@@ -55,6 +33,7 @@ function addTask(titulo, descripcion, priority) {
   const imgDeleteButton = document.createElement("img");
   //añadir clases, atributos, funcionalidades y contenido
   row.classList.add("row");
+  row.id = id;   //le damos la id
   row.setAttribute("draggable", "true");
   card.classList.add("card", "cursor-move");
   cardBody.classList.add("card-body");
@@ -93,11 +72,6 @@ function addTask(titulo, descripcion, priority) {
   deleteButton.setAttribute("onclick", "setDeleteCard(this)");
   imgDeleteButton.classList.add("mt-3");
   imgDeleteButton.src = "img/basura.png";
-
-
-
-
-
   //add parents
   row.appendChild(card);
   card.appendChild(cardBody);
@@ -115,34 +89,68 @@ function addTask(titulo, descripcion, priority) {
   deleteButton.appendChild(imgDeleteButton);
   element.appendChild(row);
   setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
-  //saveTareaDB(titulo, descripcion, estado, priority);
 }
 
-//añadir la funcionalidad al boton
-const saveNewTask = document.getElementById("saveNewTask");
-saveNewTask.addEventListener("click", createTask);
 
-//recupera todas las tareas, no lo necesitamos en principio
-function getAllTareasFromDB(){
+//cargar las tareas al cargar la pagina
+function loadTask(id){
   fetch('http://localhost:3000/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+          query: ` query{
+              getTareasByPanel(id::"${id}"){
+                titulo
+                descripcion
+                prioridad
+                estado
+                id
+              }
+            }`}),
+  })
+      .then(res => res.json())
+      .then(res => {
+          for (let i = 0; i < res.data.getTareasByPanel.length; i++) {
+              let newTarea = new Object(Tarea);
+              let titulo = res.data.getTareasByPanel[i].titulo;
+              let descripcion = res.data.getTareasByPanel[i].descripcion;
+              let prioridad = res.data.getTareasByPanel[i].prioridad;
+              let estado = res.data.getTareasByPanel[i].estado;
+              let id = res.data.getTareasByPanel[i].id;
+              newTarea.addTaskDB(titulo, descripcion, prioridad, estado, id);
+              taskArray.push(newTask);
+              console.log(res);
+          }
+      })
+      .catch(err => console.log(err))
+})
+}
+
+//añadir tarea a la base de datos
+function saveTareaDB(title, desciption, estado, prioridad){
+fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/graphql' },
     body:
-        `query{
-        getAllTareasByPanel(${idPanel}){
-            titulo
-            descripcion
-            estado
-            prioridad
-          }
-        }`
-    })
-  .then(res => res.json())
-  .then(res => {
+        `mutation{
+        createTarea(
+            titulo: "${title}",
+            descripcion: "${description}"
+            estado: "${estado}"
+            prioridad: "${prioridad}"
+        ){id}
+    }`
+})
+.then(res => res.json())
+.then(res => {
     console.log(res)
-    addTask(res.data.titulo, res.data.descripcion, res.data.priority)
-  })
-  .catch(err => console.log(err))
+    //var newTarea = new Object(Tarea)
+    //newTarea.addTask(title, description, estado, prioriodad, res.data.createPanel.id)
+    //document.getElementById("newPanelForm").reset()
+})
+.catch(err => console.log(err))
+}
 }
 
-exports.addTask= addTask;  //exportamos la funcion addTask para utilizarla desde el controlador de tareas del frontend
+
+module.exports.saveTareaDB= saveTareaDB;
