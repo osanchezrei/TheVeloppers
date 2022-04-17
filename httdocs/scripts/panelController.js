@@ -17,14 +17,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 ){id}
             }`
         })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res.data.createPanel.id)
-                var newPanel = new Object(Panel)
-                newPanel.addPanel(title, description, res.data.createPanel.id)
-                document.getElementById("newPanelForm").reset()
-            })
-            .catch(err => console.log(err))
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            var newPanel = new Object(Panel)
+            newPanel.addPanel(title, description, res.data.createPanel.id)
+            document.getElementById("newPanelForm").reset()
+        })
+        .catch(err => console.log(err))
     }
 
 
@@ -98,14 +98,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 let id = res.data.getAllPanels[i].id;
                 newPanel.addPanel(titulo, descripcion, id)
                 panelArray.push(newPanel)
+                console.log(res)
             }
         })
         .catch(err => console.log(err))
 })
 
 //Delete panels
-function deletePanel(element){
-    console.log(element.id)
+function deletePanel(element) {
     fetch('http://localhost:3000/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/graphql' },
@@ -114,10 +114,11 @@ function deletePanel(element){
                 deletePanel(id: "${element.id}"){id}
             }`
     })
-        .then(res => res.json())
-        .then(res => {
-            location.reload()
-            console.log("ID of the deleted panel: " + res.data.id)
-        })
-        .catch(err => console.log(err))
+    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+        //location.reload()
+        //console.log("ID of the deleted panel: " + res.data.id)
+    })
+    .catch(err => console.log(err))
 }

@@ -1,35 +1,37 @@
 let column;
 
-function discoverColumn(n){
-  if(n === "TODO"){
-    column= "TODO";
+function discoverColumn(n) {
+  if (n === "TODO") {
+    column = "TODO";
   }
-  else if(n === "INPROGRESS"){
-    column= "INPROGRESS";
+  else if (n === "INPROGRESS") {
+    column = "INPROGRESS";
   }
-  else{
-    column= "DONE";
+  else {
+    column = "DONE";
   }
 }
 
 
-function createTask(){
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const priority = document.getElementById("priority").value;
-    addTask(title, description, priority);
+function createTask() {
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const priority = document.getElementById("priority").value;
+  addTask(title, description, priority);
+  
+
 }
 
-function addTask(titulo, descripcion, priority){
+function addTask(titulo, descripcion, priority) {
   let element;
-//crear elementos
-  if(column === "TODO"){
+  //crear elementos
+  if (column === "TODO") {
     element = document.getElementById("col1");
   }
-  else if(column === "INPROGRESS"){
+  else if (column === "INPROGRESS") {
     element = document.getElementById("col2");
   }
-  else{
+  else {
     element = document.getElementById("col3");
   }
   const row = document.createElement("div");
@@ -47,29 +49,29 @@ function addTask(titulo, descripcion, priority){
   const col3 = document.createElement("div");
   const deleteButton = document.createElement("button");
   const imgDeleteButton = document.createElement("img");
-//añadir clases, atributos, funcionalidades y contenido
+  //añadir clases, atributos, funcionalidades y contenido
   row.classList.add("row");
   row.setAttribute("draggable", "true");
   card.classList.add("card", "cursor-move");
   cardBody.classList.add("card-body");
   title.classList.add("card-title");
-  title.textContent= titulo;
+  title.textContent = titulo;
   description.classList.add("card-text");
-  description.textContent= descripcion;
+  description.textContent = descripcion;
   container.classList.add("container", "m-0", "p-0");
   containerRow.classList.add("row");
   col1.classList.add("col-10");
-  if(priority === "1"){
+  if (priority === "1") {
     span.classList.add("badge", "bg-success");
-    span.textContent= "Low";
+    span.textContent = "Low";
   }
-  else if(priority === "2"){
+  else if (priority === "2") {
     span.classList.add("badge", "bg-warning");
-    span.textContent= "Medium";
+    span.textContent = "Medium";
   }
-  else{
+  else {
     span.classList.add("badge", "bg-danger");
-    span.textContent= "Hight";
+    span.textContent = "Hight";
   }
   col2.classList.add("col-1");
   editButton.classList.add("btn");
@@ -78,7 +80,7 @@ function addTask(titulo, descripcion, priority){
   editButton.setAttribute("data-bs-target", "#editTaskModal");
   editButton.setAttribute("onclick", "setEditCard(this)");
   imgEditButton.classList.add("mt-3");
-  imgEditButton.src= "img/icons-nota-resize.png";
+  imgEditButton.src = "img/icons-nota-resize.png";
   col3.classList.add("col-1");
   deleteButton.classList.add("btn");
   deleteButton.setAttribute("type", "button");
@@ -86,13 +88,13 @@ function addTask(titulo, descripcion, priority){
   deleteButton.setAttribute("data-bs-target", "#removeTaskModal");
   deleteButton.setAttribute("onclick", "setDeleteCard(this)");
   imgDeleteButton.classList.add("mt-3");
-  imgDeleteButton.src= "img/basura.png";
+  imgDeleteButton.src = "img/basura.png";
 
 
 
 
 
-//add parents
+  //add parents
   row.appendChild(card);
   card.appendChild(cardBody);
   cardBody.appendChild(title);
@@ -114,3 +116,24 @@ function addTask(titulo, descripcion, priority){
 //añadir la funcionalidad al boton
 const saveNewTask = document.getElementById("saveNewTask");
 saveNewTask.addEventListener("click", createTask);
+
+
+fetch('http://localhost:3000/graphql', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/graphql' },
+  body:
+      `query{
+      getAllTareasByPanel(${idPanel}){
+          titulo
+          descripcion
+          estado
+          prioridad
+        }      
+      }`
+})
+.then(res => res.json())
+.then(res => {
+  console.log(res)
+  addTask(res.data.titulo, res.data.descripcion, res.data.priority)
+})
+.catch(err => console.log(err))
