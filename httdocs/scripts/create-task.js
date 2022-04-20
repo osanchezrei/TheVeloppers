@@ -29,12 +29,11 @@ function createTask() {
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
   const priority = document.getElementById("priority").value;
-  addTask(title, description, priority);
+  addTask(title, description, priority, null, null, true);
 }
 
-async function addTask(titulo, descripcion, priority) {
+async function addTask(titulo, descripcion, priority, estado, id, flag) {   //el flag es true si es una nueva tarea
   let element;
-  let estado;
   //crear elementos
   if (column === "TODO" || estado == "TODO") {
     element = document.getElementById("col1");
@@ -125,11 +124,16 @@ async function addTask(titulo, descripcion, priority) {
   deleteButton.appendChild(imgDeleteButton);
   element.appendChild(row);
   setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
-  saveTareaDB(titulo, descripcion, estado, priority, panelId);
+  if(flag){
+    saveTareaDB(titulo, descripcion, estado, priority, panelId);
+  }
+  else{
+    row.setAttribute('id', id);
+  }
 }
 
 //añadir tarea a la base de datos
-function saveTareaDB(title, desciption, estado, prioridad, idPanel){
+function saveTareaDB(title, descripcion, estado, prioridad, idPanel){
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/graphql' },
@@ -137,7 +141,7 @@ function saveTareaDB(title, desciption, estado, prioridad, idPanel){
         `mutation{
         createTarea(
             titulo: "${title}",
-            descripcion: "${description}"
+            descripcion: "${descripcion}"
             estado: "${estado}"
             prioridad: "${prioridad}"
             idPanel: "${idPanel}"
@@ -162,29 +166,34 @@ function getAllTareasByPanel(idPanel){
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({query: `query
-          getTareasByPanel($idPanel: ${idPanel}){
+    body: JSON.stringify({
+      query: `query ($idPanel: String!){
+          getTareasByPanel(idPanel: $idPanel){
             titulo
             descripcion
             estado
             prioridad
             id
           }
-        }` }),
+        }`,
+        variables:{
+          idPanel: idPanel
+        }
+
+       }),
   })
   .then(res => res.json())
   .then(res => {
     console.log(res)
     for (let i = 0; i < res.data.getTareasByPanel.length; i++) {
-      console.log(res.data.getTareaById[i].titulo)
-      console.log(res.data.getTareaById[i].descripcion)
-      console.log(res.data.getTareaById[i].id)
-      console.log(res.data.getTareaById[i].prioridad)
-      console.log(res.data.getTareaById[i].estado)
+      addTask(
+        res.data.getTareasByPanel[i].titulo,
+        res.data.getTareasByPanel[i].descripcion,
+        res.data.getTareasByPanel[i].prioridad,
+        res.data.getTareasByPanel[i].estado,
+        res.data.getTareasByPanel[i].id,
+        false);
     }
-    //addTask(res.data.titulo, res.data.descripcion, res.data.priority)
   })
   .catch(err => console.log(err))
 }
-
-//exports.addTask= addTask;  //exportamos la funcion addTask para utilizarla desde el controlador de tareas del frontend
