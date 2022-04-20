@@ -1,9 +1,13 @@
-let column;
-let panelId;
+
+let column; //variable para saber la columna
+let panelId; //variable global para la el panelId que llega desde la url
+let row;  //variable para poder poner el id al nuevo elemento de forma asincrona, sera la raiz del nuevo elemento
 
 function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
   const url= document.location.search;
   panelId= url.substring(1);
+  console.log(panelId);
+  getAllTareasByPanel(panelId);
 }
 
 window.onload= getUrlGet; //nada mas cargar la ventana lanzamos la funcion para obtner la id del panel
@@ -28,7 +32,7 @@ function createTask() {
   addTask(title, description, priority);
 }
 
-function addTask(titulo, descripcion, priority) {
+async function addTask(titulo, descripcion, priority) {
   let element;
   let estado;
   //crear elementos
@@ -44,7 +48,7 @@ function addTask(titulo, descripcion, priority) {
     element = document.getElementById("col3");
     estado = "DONE";
   }
-  const row = document.createElement("div");
+  row = document.createElement("div");
   const card = document.createElement("div");
   const cardBody = document.createElement("div");
   const title = document.createElement("h5");
@@ -121,13 +125,12 @@ function addTask(titulo, descripcion, priority) {
   deleteButton.appendChild(imgDeleteButton);
   element.appendChild(row);
   setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
-  //console.log(titulo, descripcion, estado, priority, panelId);
   saveTareaDB(titulo, descripcion, estado, priority, panelId);
 }
 
 //añadir tarea a la base de datos
 function saveTareaDB(title, desciption, estado, prioridad, idPanel){
-fetch('http://localhost:3000/graphql', {
+  fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/graphql' },
     body:
@@ -140,13 +143,12 @@ fetch('http://localhost:3000/graphql', {
             idPanel: "${idPanel}"
         ){id}
     }`
-})
-.then(res => res.json())
-.then(res => {
-    console.log(res);
-    console.log(res.id);  //no consigo recuperar la id
-})
-.catch(err => console.log(err))
+  })
+  .then(res => res.json())
+  .then(res => {
+    row.setAttribute('id', res.data.createTarea.id);
+  })
+  .catch(err => console.log(err))
 }
 
 
@@ -154,30 +156,35 @@ fetch('http://localhost:3000/graphql', {
 const saveNewTask = document.getElementById("saveNewTask");
 saveNewTask.addEventListener("click", createTask);
 
-
-
-//recupera todas las tareas, no lo necesitamos en principio
-function getAllTareasFromDB(){
+//recupera todas las del panel
+function getAllTareasByPanel(idPanel){
+  console.log('idPanel in fetch' + idPanel)
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/graphql' },
-    body:
-        `query{
-        getAllTareasByPanel(${idPanel}){
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({query: `query
+          getTareasByPanel($idPanel: ${idPanel}){
             titulo
             descripcion
             estado
             prioridad
+            id
           }
-        }`
-    })
+        }` }),
+  })
   .then(res => res.json())
   .then(res => {
     console.log(res)
-    console.log(res.id)
+    for (let i = 0; i < res.data.getTareasByPanel.length; i++) {
+      console.log(res.data.getTareaById[i].titulo)
+      console.log(res.data.getTareaById[i].descripcion)
+      console.log(res.data.getTareaById[i].id)
+      console.log(res.data.getTareaById[i].prioridad)
+      console.log(res.data.getTareaById[i].estado)
+    }
     //addTask(res.data.titulo, res.data.descripcion, res.data.priority)
   })
   .catch(err => console.log(err))
 }
 
-exports.addTask= addTask;  //exportamos la funcion addTask para utilizarla desde el controlador de tareas del frontend
+//exports.addTask= addTask;  //exportamos la funcion addTask para utilizarla desde el controlador de tareas del frontend

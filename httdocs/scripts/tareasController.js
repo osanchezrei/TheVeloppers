@@ -1,11 +1,12 @@
-const { addTask } = require('./create-task');  //importamos la funcion addTask del modulo create Task para poder reutilizarla
+//const mongoose = require('mongoose');
+/*const { addTask } = require('./create-task');  //importamos la funcion addTask del modulo create Task para poder reutilizarla
 
 
 let panelId;
 export function getUrlGet(){
   const url= document.location.search;
   panelId= url.substring(1);
-}
+}*/
 
 
 
@@ -15,7 +16,7 @@ export function getUrlGet(){
 /*function addTaskDB(titulo, descripcion, priority, estado, id) {
   let element;
   //crear elementos
-  if (column === "TODO" || estado == "TODO") {
+  //if (column === TOD" || estado == TOD") {
     element = document.getElementById("col1");
   }
   else if (column === "INPROGRESS" || estado == "INPROGRESS") {
@@ -134,8 +135,16 @@ function loadTask(id){
 })
 }
 */
+
+/*async function importar() {
+  const mongoose= await require('mongoose');
+  //console.log(controller.saveTareaDB);
+}
+
+importar()*/
 //añadir tarea a la base de datos
-export function saveTareaDB(title, desciption, estado, prioridad){
+export function saveTareaDB(title, desciption, estado, prioridad, idPanel){
+  console.log(titulo, descripcion, estado, typeof(priority), panelId);
 fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/graphql' },
@@ -146,19 +155,20 @@ fetch('http://localhost:3000/graphql', {
             descripcion: "${description}"
             estado: "${estado}"
             prioridad: "${prioridad}"
+            idPanel: "${idPanel}"
         ){id}
     }`
 })
-.then(res => res.json())
-.then(res => {
-    console.log(res)
-    //var newTarea = new Object(Tarea)
-    //newTarea.addTask(title, description, estado, prioriodad, res.data.createPanel.id)
-    //document.getElementById("newPanelForm").reset()
-})
-.catch(err => console.log(err))
+  .then(res => res.json())
+  .then(res => {
+    console.log(res);
+    console.log(res.id);  //no consigo recuperar la id
+  })
+  .catch(err => console.log(err))
 }
 
+
+//module.exports = { hola, saveTareaDB } ;
 
 
 //module.exports= saveTareaDB;
