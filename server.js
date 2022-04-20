@@ -13,8 +13,8 @@ app.use(express.static(__dirname + '/httdocs/')); //utilizando el metodo use de 
 
 
 //endpoint de graphql
-console.log(schema);
-console.log(root);
+//console.log(schema);
+//console.log(root);
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,

@@ -36,7 +36,7 @@ const schema = buildSchema(`
     descripcion: String!
   }
   type Query{
-    getPanelByid(id: ID!): Panel
+    getPanelByid(_id: ID!): Panel
     getAllPanels:[ Panel ]
     getAllTareas: [ Tarea ]
     getTareasByPanel(idPanel: String!): [ Tarea ]

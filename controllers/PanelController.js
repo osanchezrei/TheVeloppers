@@ -1,6 +1,7 @@
 const Panel= require('../models/Panel.js');
 const { graphql, parseConstValue} = require('graphql');
 
+
 const resolvers = {
   Query:{
     async getPanelByid(_, { id }){

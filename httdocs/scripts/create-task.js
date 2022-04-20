@@ -3,11 +3,12 @@ let column; //variable para saber la columna
 let panelId; //variable global para la el panelId que llega desde la url
 let row;  //variable para poder poner el id al nuevo elemento de forma asincrona, sera la raiz del nuevo elemento
 
+
 function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
   const url= document.location.search;
   panelId= url.substring(1);
-  console.log(panelId);
   getAllTareasByPanel(panelId);
+  loadTextAndTitle(panelId);
 }
 
 window.onload= getUrlGet; //nada mas cargar la ventana lanzamos la funcion para obtner la id del panel
@@ -162,7 +163,6 @@ saveNewTask.addEventListener("click", createTask);
 
 //recupera todas las del panel
 function getAllTareasByPanel(idPanel){
-  console.log('idPanel in fetch' + idPanel)
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -184,7 +184,6 @@ function getAllTareasByPanel(idPanel){
   })
   .then(res => res.json())
   .then(res => {
-    console.log(res)
     for (let i = 0; i < res.data.getTareasByPanel.length; i++) {
       addTask(
         res.data.getTareasByPanel[i].titulo,
@@ -195,5 +194,36 @@ function getAllTareasByPanel(idPanel){
         false);
     }
   })
+  .catch(err => console.log(err))
+}
+
+
+
+//cargar el titulo y el texto del panel en el titulo y la descripcion de la tarea
+function loadTextAndTitle(id_panel){
+  const titleMain= document.getElementById('mainTitle');
+  const textMain= document.getElementById('mainText');
+  fetch('http://localhost:3000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query:`query ($_id: ID!){
+          getPanelByid(_id: $_id){
+            titulo
+            descripcion
+          }
+        }`,
+        variables:{
+          _id: id_panel
+        }
+    }),
+  })
+  .then(res=> res.json())
+  .then(res=>{
+    //console.log(typeof(res.data.getPanelByid.titulo))
+    titleMain.innerHTML= res.data.getPanelByid.titulo,
+    textMain.textContent= res.data.getPanelByid.descripcion
+  }
+  )
   .catch(err => console.log(err))
 }
