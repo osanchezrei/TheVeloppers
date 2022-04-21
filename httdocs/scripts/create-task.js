@@ -1,4 +1,5 @@
-
+//import { setDraggables } from './drag-and-drop'
+//const setDraggables = require('./drag-and-drop.js');
 let column; //variable para saber la columna
 let panelId; //variable global para la el panelId que llega desde la url
 let row;  //variable para poder poner el id al nuevo elemento de forma asincrona, sera la raiz del nuevo elemento
@@ -11,7 +12,7 @@ function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
   loadTextAndTitle(panelId);
 }
 
-window.onload= getUrlGet; //nada mas cargar la ventana lanzamos la funcion para obtner la id del panel
+window.onload= getUrlGet; //nada mas cargar la ventana lanzamos la funcion para obtner la id del panel, ESTO SOLO PUEDE USARSE UNA VEZ
 
 function discoverColumn(n) {
   if (n === "TODO") {
@@ -124,16 +125,17 @@ async function addTask(titulo, descripcion, priority, estado, id, flag) {   //el
   col3.appendChild(deleteButton);
   deleteButton.appendChild(imgDeleteButton);
   element.appendChild(row);
-  setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
+  //setDraggables();  //lamamos a esta funcion para que el elemento que se acaba de crear sea arrastrable
   if(flag){
     saveTareaDB(titulo, descripcion, estado, priority, panelId);
   }
   else{
     row.setAttribute('id', id);
   }
+  //setDraggables(); no funciona, ¿por que antes si lo hacia?
 }
 
-//añadir tarea a la base de datos
+//añadir tarea a la base de datos, OK
 function saveTareaDB(title, descripcion, estado, prioridad, idPanel){
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
@@ -161,7 +163,7 @@ function saveTareaDB(title, descripcion, estado, prioridad, idPanel){
 const saveNewTask = document.getElementById("saveNewTask");
 saveNewTask.addEventListener("click", createTask);
 
-//recupera todas las del panel
+//recupera todas las del panel, OK
 function getAllTareasByPanel(idPanel){
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
@@ -199,7 +201,7 @@ function getAllTareasByPanel(idPanel){
 
 
 
-//cargar el titulo y el texto del panel en el titulo y la descripcion de la tarea
+//cargar el titulo y el texto del panel en el titulo y la descripcion de la tarea, OK
 function loadTextAndTitle(id_panel){
   const titleMain= document.getElementById('mainTitle');
   const textMain= document.getElementById('mainText');
