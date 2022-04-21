@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 document.getElementById("newPanelForm").reset()
                 addPanel(newPanel)
                 panelArray.push(newPanel)
+                console.log(res.data.createPanel.id)
             })
             .catch(err => console.log(err))
     }
