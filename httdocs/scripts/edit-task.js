@@ -82,7 +82,7 @@ function updateTareaDB(id_tarea, titulo, descripcion, priority ){
     }`,
   })
   .then(res=> {
-      socket.emit('new-message', 'Edita Task')
+        socket.emit('new-message', 'Edita Task')   
   })
   .catch(err=> console.log(err))
 }
