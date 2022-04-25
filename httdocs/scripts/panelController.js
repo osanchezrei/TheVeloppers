@@ -1,6 +1,8 @@
 const panelArray = []
 
+
 document.addEventListener("DOMContentLoaded", function (event) {
+    var socket= io.connect("localhost:3000", { forceNew: true })
 
     //Constructor de un objeto panel
     function Panel(titulo, descripcion, id) {
@@ -107,6 +109,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 addPanel(newPanel)
                 panelArray.push(newPanel)
                 console.log(res.data.createPanel.id)
+                if(newPanel){
+                    socket.emit('new-message', 'panel created');
+                }
             })
             .catch(err => console.log(err))
     }
@@ -140,4 +145,3 @@ function deletePanel(element) {
         })
     })
 }
-

@@ -1,3 +1,5 @@
+var socket= io.connect("localhost:3000", { forceNew: true }) //socket de eventos
+
 //deshabilitamos el comportamiento normal del navegado para que no interfiera en el evento
 //
 //es la funcion que se ejecuta cuando termina el evento
@@ -42,7 +44,6 @@ function eventDragEnd(e) {
 //asignar las anteriores funciones a los elementos que son draggables, lo creamos en un funcion que se llamara al cargar la pagina
 // y cada vez que se cree un elemento nuevo
 function setDraggables(){
-  console.log('setDraggables');
   let items = document.querySelectorAll('[draggable=true]');
   items.forEach(function(item) {
     item.addEventListener('dragstart', eventDragStart);
@@ -62,6 +63,9 @@ function updateEstadoDB(id_tarea, estado){
         id
         }
     }`,
+  })
+  .then(res =>{
+      socket.emit('new-message', 'Update Task')
   })
   .catch(err=> console.log(err))
 }

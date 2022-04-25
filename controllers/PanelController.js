@@ -18,7 +18,7 @@ const resolvers = {
   Mutation: {
     async createPanel({ titulo, descripcion }) {
       const newPanel = new Panel({ titulo, descripcion });
-      return createdPanel = await newPanel.save()
+      return createdPanel = await newPanel.save();
     },
     //deletePanel
     async deletePanel(panel) {

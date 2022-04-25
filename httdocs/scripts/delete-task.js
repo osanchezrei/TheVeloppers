@@ -1,3 +1,5 @@
+var socket= io.connect("localhost:3000", { forceNew: true }) //socket de eventos
+
 function setDeleteCard(e){
   const card = e.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
   card.classList.add("deletting");
@@ -30,6 +32,9 @@ function deleteTaskDB(id_tarea){
         id
       }
     }`,
+  })
+  .then(res=>{
+      socket.emit('new-message', 'Delete task')
   })
   .catch(err=> console.log(err))
 }

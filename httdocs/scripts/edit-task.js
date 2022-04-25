@@ -1,3 +1,5 @@
+var socket= io.connect("localhost:3000", { forceNew: true }) //socket de eventos
+
 function setEditCard(e){
   const card = e.parentNode.parentNode.parentNode.parentNode.parentNode;
   card.classList.add("editting");
@@ -78,6 +80,9 @@ function updateTareaDB(id_tarea, titulo, descripcion, priority ){
         id
         }
     }`,
+  })
+  .then(res=> {
+      socket.emit('new-message', 'Edita Task')
   })
   .catch(err=> console.log(err))
 }

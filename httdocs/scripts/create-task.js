@@ -4,6 +4,7 @@ let column; //variable para saber la columna
 let panelId; //variable global para la el panelId que llega desde la url
 let row;  //variable para poder poner el id al nuevo elemento de forma asincrona, sera la raiz del nuevo elemento
 
+//var socket= io.connect("localhost:3000", { forceNew: true }) //socket de eventos
 
 function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
   const url= document.location.search;
@@ -153,7 +154,8 @@ function saveTareaDB(title, descripcion, estado, prioridad, idPanel){
   })
   .then(res => res.json())
   .then(res => {
-    row.setAttribute('id', res.data.createTarea.id);
+    row.setAttribute('id', res.data.createTarea.id)
+    socket.emit('new-message', 'Create task')
   })
   .catch(err => console.log(err))
 }

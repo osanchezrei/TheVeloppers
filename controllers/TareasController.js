@@ -2,6 +2,7 @@ const Tarea= require('../models/Tareas.js');
 const { graphql, parseConstValue} = require('graphql');
 
 
+
 const resolversTareas= {
   Query:{
     async getAllTareas(){
