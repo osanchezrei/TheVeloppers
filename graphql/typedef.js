@@ -18,6 +18,7 @@ const root = {
   createTarea: resolversTareas.Mutation.createTarea,
   updateTarea: resolversTareas.Mutation.updateTarea,
   deleteTarea: resolversTareas.Mutation.deleteTarea,
+  deleteTareasByPanel: resolversTareas.Mutation.deleteTareasByPanel
 };
 
 //esquemas graphql

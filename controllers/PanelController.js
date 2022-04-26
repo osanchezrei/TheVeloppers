@@ -1,7 +1,7 @@
 const Panel = require('../models/Panel.js');
 const mongoose = require('mongoose');
 const { graphql, parseConstValue } = require('graphql');
-
+const tareasController = require('../controllers/TareasController.js')
 
 const resolvers = {
   Query: {
@@ -24,9 +24,10 @@ const resolvers = {
     async deletePanel(panel) {
       console.log(panel.id)
       if (mongoose.isValidObjectId(panel.id)) {
-        await Panel.findOneAndRemove({ _id: new mongoose.mongo.ObjectId(panel.id) })
+        var _id = new mongoose.mongo.ObjectId(panel.id)
+        await Panel.findOneAndRemove(_id)
           .then(() =>
-              console.log("Successfully removed panel with id: " + panel.id)
+            tareasController.resolversTareas.Mutation.deleteTareasByPanel(_id)
           )
           .catch((err) =>
             console.log(err)

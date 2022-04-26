@@ -138,6 +138,7 @@ function deletePanel(element) {
                         res.json()
                     })
                     .then(() => {
+                        
                         location.reload()
                     })
                     .catch(err => console.log(err))

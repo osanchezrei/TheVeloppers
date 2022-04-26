@@ -30,13 +30,23 @@ const resolversTareas= {
     },
 
     async deleteTarea({id}){
-      const tarea= await Tarea.findByIdAndDelete(id)
+      await Tarea.findByIdAndDelete(id)
       .then( () =>
         console.log("Deleted Object: " + id)
       )
       .catch( (err) =>
         console.log(err)
       )
+    },
+    async deleteTareasByPanel({id}){
+      const query = {"tareas": {"$idPanel": id}}
+      await Tarea.deleteMany(query)
+      .then((res) => {
+        console.log("delete multiple tasks")
+      })
+      .catch((err) =>{
+        console.log(err)
+      })
     }
   }
 
