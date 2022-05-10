@@ -33,7 +33,7 @@ const schema = buildSchema(`
     prioridad: String
   }
   type Panel{
-    id: ID! 
+    id: ID!
     titulo: String!
     descripcion: String!
   }
@@ -53,7 +53,10 @@ const schema = buildSchema(`
     deleteTarea(id: ID!): Tarea
   }
   type Subscription{
-      createTask: Tarea
+      createTask: Result!
+  }
+  type Result{
+      titulo: String
   }
 `);
 
