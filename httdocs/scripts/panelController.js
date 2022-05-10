@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         deleteButton.classList.add("btn", "btn-danger", "deletePanel")
         deleteButtonContent.classList.add("bi", "bi-trash")
         goButton.classList.add("btn", "btn-primary")
-        goButton.href = "/" + 'panel-selection.html' + '?' + newPanel.id  //redirecciona a  las tareas
+        goButton.href = "/" + 'panel-selection.html' + '?' + newPanel.id  //redirecciona a las tareas
         goButton.innerHTML = "Go to panel"
 
         //Añadimos función removeElement al deleteButton para que permita eliminar
@@ -104,11 +104,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
         })
             .then(res => res.json())
             .then(res => {
+                console.log(res)
+                console.log(res.data.createPanel.id)
                 let newPanel = new Panel(titulo, descripcion, res.data.createPanel.id)
                 document.getElementById("newPanelForm").reset()
                 addPanel(newPanel)
                 panelArray.push(newPanel)
-                console.log(res.data.createPanel.id)
                 if(newPanel){
                     socket.emit('new-message', 'panel created');
                 }

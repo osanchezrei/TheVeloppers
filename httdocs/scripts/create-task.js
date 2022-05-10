@@ -205,6 +205,7 @@ function getAllTareasByPanel(idPanel){
 
 //cargar el titulo y el texto del panel en el titulo y la descripcion de la tarea, OK
 function loadTextAndTitle(id_panel){
+
   const titleMain= document.getElementById('mainTitle');
   const textMain= document.getElementById('mainText');
   fetch('http://localhost:3000/graphql', {
@@ -224,6 +225,7 @@ function loadTextAndTitle(id_panel){
   })
   .then(res=> res.json())
   .then(res=>{
+    console.log(res)
     //console.log(typeof(res.data.getPanelByid.titulo))
     titleMain.innerHTML= res.data.getPanelByid.titulo,
     textMain.textContent= res.data.getPanelByid.descripcion

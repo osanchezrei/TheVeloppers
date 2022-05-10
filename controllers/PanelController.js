@@ -5,10 +5,9 @@ const tareasController = require('../controllers/TareasController.js')
 
 const resolvers = {
   Query: {
-    async getPanelByid(_, { id }) {
-      const panel = await Panel.findOne({ id });
-      return panel;
-    },
+    async getPanelByid(_, id) {
+      return await Panel.findOne({ id });
+  },
 
     async getAllPanels() {
       const panels = await Panel.find({});
@@ -22,7 +21,6 @@ const resolvers = {
     },
     //deletePanel
     async deletePanel(panel) {
-      console.log(panel.id)
       if (mongoose.isValidObjectId(panel.id)) {
         var _id = new mongoose.mongo.ObjectId(panel.id)
         await Panel.findOneAndRemove(_id)

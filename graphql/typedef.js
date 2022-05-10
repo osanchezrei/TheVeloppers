@@ -33,7 +33,7 @@ const schema = buildSchema(`
     prioridad: String
   }
   type Panel{
-    id: ID!
+    id: ID! 
     titulo: String!
     descripcion: String!
   }
