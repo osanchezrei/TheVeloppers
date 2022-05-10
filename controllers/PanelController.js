@@ -1,7 +1,7 @@
 const Panel = require('../models/Panel.js');
 const mongoose = require('mongoose');
 const { graphql, parseConstValue } = require('graphql');
-const tareasController = require('../controllers/TareasController.js')
+const tareasController = require('../controllers/TareasController.js');
 
 const resolvers = {
   Query: {
