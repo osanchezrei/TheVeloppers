@@ -37,11 +37,11 @@ function createTask() {
 async function addTask(titulo, descripcion, priority, estado, id, flag) {   //el flag es true si es una nueva tarea
   let element;
   //crear elementos
-  if (column === "TODO" || estado == "TODO") {
+  if (column === "TODO" || estado === "TODO") {
     element = document.getElementById("col1");
     estado = "TODO";
   }
-  else if (column === "INPROGRESS" || estado == "INPROGRESS") {
+  else if (column === "INPROGRESS" || estado === "INPROGRESS") {
     element = document.getElementById("col2");
     estado = "INPROGRESS";
   }
