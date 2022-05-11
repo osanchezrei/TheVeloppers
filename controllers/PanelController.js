@@ -5,8 +5,8 @@ const tareasController = require('../controllers/TareasController.js');
 
 const resolvers = {
   Query: {
-    async getPanelByid(_, id) {
-      return await Panel.findOne({ id });
+    async getPanelByid(id) {
+      return await Panel.findOne(id);
   },
 
     async getAllPanels() {

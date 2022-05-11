@@ -3,12 +3,11 @@
 let column; //variable para saber la columna
 let panelId; //variable global para la el panelId que llega desde la url
 let row;  //variable para poder poner el id al nuevo elemento de forma asincrona, sera la raiz del nuevo elemento
-
 //var socket= io.connect("localhost:3000", { forceNew: true }) //socket de eventos
 
 function getUrlGet(){   //obtenemos el panelId que llega como GET en la url
   const url= document.location.search;
-  panelId= url.substring(1);
+  panelId= url.substring(1) + "";
   getAllTareasByPanel(panelId);
   loadTextAndTitle(panelId);
 }
@@ -205,14 +204,13 @@ function getAllTareasByPanel(idPanel){
 
 //cargar el titulo y el texto del panel en el titulo y la descripcion de la tarea, OK
 function loadTextAndTitle(id_panel){
-
   const titleMain= document.getElementById('mainTitle');
   const textMain= document.getElementById('mainText');
   fetch('http://localhost:3000/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      query:`query ($_id: ID!){
+      query:`query ($_id: String!){
           getPanelByid(_id: $_id){
             titulo
             descripcion
