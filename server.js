@@ -5,43 +5,42 @@ const { graphqlHTTP }= require('express-graphql'); //grphql express
 const fileUpload= require('express-fileupload');
 const app = express(); //asignamos la funcion exprexx del paquete anterior a un variable para su manejo
 
-const { SubscriptionServer, SubscriptionClient }= require('subscriptions-transport-ws');
+const { SubscriptionClient }= require('subscriptions-transport-ws');
 const { execute, subscribe }= require('graphql');
-const { createServer }= require('http');
+//const { createServer }= require('http');
 const { resolversTareas }=  require('./controllers/TareasController'); //importamos los resolvers de Tareas
+const { resolvers }=  require('./controllers/PanelController');
 
 const { ApolloServer }= require('apollo-server-express');
-const { pubsub }= require('./graphql/pubsub');
+const pubsub= require('./graphql/pubsub');
 const { tareasSchema }= require('./models/Tareas');
-const { ApolloServerPluginDrainHttpServer }= require('apollo-server-core');
+//const { ApolloServerPluginDrainHttpServer }= require('apollo-server-core');
+
 const { WebSocketServer }= require('ws');
 const { useServer }= require('graphql-ws/lib/use/ws');
+const { createClient }= require('graphql-ws');
 
 
 var http= require('http').Server(app);
 var io= require('socket.io')(http);
 
-/*const server = new ApolloServer({
+async function startApolloServer() {
+  const PORT = 4000;
+  const server = new ApolloServer({
     schema,
     resolversTareas,
-    playground: {
-        endpoint: 'http://localhost:3000/graphql',
-        settings: {
-            'editor.theme': 'light'
-        }
-    },
     subscriptions: {
-        path: '/subscriptions'
-    }
-})
-
-server.start().then(res =>
-    server.applyMiddleware({ app })
-)
-
-
-server.installSubscriptionHandlers(http)*/
-
+        path: '/graphql'
+    },
+  });
+  await server.start();
+  server.applyMiddleware({app})
+  server.installSubscriptionHandlers(http);  //esta linea da error
+  await new Promise(resolve => http.listen(PORT, resolve));
+  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`);
+  return { server };
+}
 
 connection.connectMongoDB(); //conectamos con mongodb
 
@@ -77,8 +76,22 @@ app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
-  subscriptionsEndpoint: `ws://localhost:3001/graphql`
+  //subscriptionsEndpoint: `ws://localhost:3000/graphql`
 }));
+
+
+//servidor suscripciones graphql. no se si vales de algo
+const websocketServer = app.listen(4000, () =>{
+    const wsServer =new WebSocketServer({
+        server: websocketServer,
+        path: '/graphql',
+    });
+
+    useServer({ schema }, wsServer)  //para que graphql use el sevidor para las subscripciones  ??
+
+});
+
+
 
 //servidor socket.io
 io.on('connection', (socket) => {
@@ -113,7 +126,7 @@ ws.listen(portSocket, () => {
 
 
 //websocket server
-const websocketServer= createServer((request, response) =>{
+/*const websocketServer= createServer((request, response) =>{
     response.writeHead(404);
     response.end();
 });
@@ -121,13 +134,15 @@ const websocketServer= createServer((request, response) =>{
 //inciamos el sevidor websocketServer
 websocketServer.listen(portSocket, ()=>
     console.log('webSocket server run on port '+ portSocket)
-);
+);*/
 
 //servidor de suscripciones
-const subscriptionServer= SubscriptionServer.create(
+/*const subscriptionServer= SubscriptionServer.create(
         { execute, subscribe, schema },
         {server: websocketServer, path: '/'}
-);
+);*/
+
+//startApolloServer();  //da error
 
 //incializamos el servidor http
 http.listen(port, () => {

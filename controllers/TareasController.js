@@ -1,6 +1,8 @@
 const Tarea= require('../models/Tareas.js');
 const { graphql, parseConstValue} = require('graphql');
-const { pubsub }= require('../graphql/pubsub');
+const pubsub= require('../graphql/pubsub');
+
+
 
 const create_task= 'create_task';
 
@@ -21,10 +23,10 @@ const resolversTareas= {
   },
 
   Mutation:{
-    async createTarea({titulo, descripcion, estado, prioridad, idPanel }){
+    async createTarea({titulo, descripcion, estado, prioridad, idPanel }, pubsub){
       const tarea= new Tarea({titulo, descripcion, estado, prioridad, idPanel });
       createdTarea= await tarea.save();
-      pubsub.publish(create_task, { createTask: createdTarea })
+      pubsub.publish(create_task, { createTask: { mutation: 'tarea creada'}, data: {titulo, descripcion, estado, prioridad, idPanel } })
       return createdTarea;
     },
 
@@ -53,16 +55,10 @@ const resolversTareas= {
     }
 },
 
- Subscription:{
+ Subscription: {
     createTask:
     {
-
-        subscribe: () => {
-            return pubsub.asyncIterator(create_task)
-        },
-        resolve: (payload) =>{
-            return payload.createTask
-        }
+        subscribe: (pubsub) => pubsub.asyncIterator(create_task)
     }
 },
 }
