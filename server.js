@@ -5,13 +5,12 @@ const { graphqlHTTP }= require('express-graphql'); //grphql express
 const fileUpload= require('express-fileupload');
 const app = express(); //asignamos la funcion exprexx del paquete anterior a un variable para su manejo
 
+/*
 const { SubscriptionClient }= require('subscriptions-transport-ws');
-const { execute, subscribe }= require('graphql');
-//const { createServer }= require('http');
-const { resolversTareas }=  require('./controllers/TareasController'); //importamos los resolvers de Tareas
-const { resolvers }=  require('./controllers/PanelController');
 
-const { ApolloServer }= require('apollo-server-express');
+
+
+const { resolvers }=  require('./controllers/PanelController');
 const pubsub= require('./graphql/pubsub');
 const { tareasSchema }= require('./models/Tareas');
 //const { ApolloServerPluginDrainHttpServer }= require('apollo-server-core');
@@ -19,34 +18,27 @@ const { tareasSchema }= require('./models/Tareas');
 const { WebSocketServer }= require('ws');
 const { useServer }= require('graphql-ws/lib/use/ws');
 const { createClient }= require('graphql-ws');
+*/
+
+//const { SubscriptionServer }=require('subscriptions-transport-ws');
+const { useServer }=require('graphql-ws/lib/use/ws');
+const { WebSocket }=require('ws');
+const { execute, subscribe }= require('graphql');
+const { createServer }= require('http');
+const { graphiqlExpress }= require('graphql-server-express');
+const { resolversTareas }=  require('./controllers/TareasController'); //importamos los resolvers de Tareas
+
 
 
 var http= require('http').Server(app);
 var io= require('socket.io')(http);
 
-async function startApolloServer() {
-  const PORT = 4000;
-  const server = new ApolloServer({
-    schema,
-    resolversTareas,
-    subscriptions: {
-        path: '/graphql'
-    },
-  });
-  await server.start();
-  server.applyMiddleware({app})
-  server.installSubscriptionHandlers(http);  //esta linea da error
-  await new Promise(resolve => http.listen(PORT, resolve));
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-  console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`);
-  return { server };
-}
 
 connection.connectMongoDB(); //conectamos con mongodb
 
 
 const port= '3000'; //creamos una constante para guardar el puerto del servidor http
-const portSocket= '3001'; //creamos otra constante para el puertod del servidor de sockets
+const ws_port= '5000'; //creamos otra constante para el puertod del servidor de sockets
 
 
 
@@ -71,27 +63,36 @@ app.post('/upload', (req,res)=>{
     })
 });
 
+//websocket server
+const wsServer = new WebSocket.Server({
+  
+  http, // Your HTTP server
+  path: '/graphql',
+  port: 5000,
+});
+useServer(
+  {
+    schema,
+    execute,
+    subscribe,
+    resolversTareas
+  },
+  wsServer
+);
+
 //endpoint graphql
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
-  graphiql: true,
+  //graphiql: true,
   //subscriptionsEndpoint: `ws://localhost:3000/graphql`
 }));
 
-
-//servidor suscripciones graphql. no se si vales de algo
-const websocketServer = app.listen(4000, () =>{
-    const wsServer =new WebSocketServer({
-        server: websocketServer,
-        path: '/graphql',
-    });
-
-    useServer({ schema }, wsServer)  //para que graphql use el sevidor para las subscripciones  ??
-
-});
-
-
+//endpoint graphiql
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql',
+  subscriptionsEndpoint: `ws://localhost:5000/graphql`,
+}));
 
 //servidor socket.io
 io.on('connection', (socket) => {
@@ -107,42 +108,6 @@ function sendMessage(data){
     io.sockets.emit('messages', data);
 }
 
-/*const ws = createServer(app);
-
-ws.listen(portSocket, () => {
-  // Set up the WebSocket for handling GraphQL subscriptions.
-  new SubscriptionServer(
-    {
-      execute,
-      subscribe,
-      schema,
-    },
-    {
-      server: ws,
-      path: '/subscriptions',
-    },
-  );
-});*/
-
-
-//websocket server
-/*const websocketServer= createServer((request, response) =>{
-    response.writeHead(404);
-    response.end();
-});
-
-//inciamos el sevidor websocketServer
-websocketServer.listen(portSocket, ()=>
-    console.log('webSocket server run on port '+ portSocket)
-);*/
-
-//servidor de suscripciones
-/*const subscriptionServer= SubscriptionServer.create(
-        { execute, subscribe, schema },
-        {server: websocketServer, path: '/'}
-);*/
-
-//startApolloServer();  //da error
 
 //incializamos el servidor http
 http.listen(port, () => {
