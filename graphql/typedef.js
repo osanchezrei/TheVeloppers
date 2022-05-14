@@ -53,10 +53,9 @@ const schema = buildSchema(`
     deleteTarea(id: ID!): Tarea
   }
   type Subscription{
-      createTask: subscriptionPayload
+      createTask: Tarea!
   }
   type subscriptionPayload {
-      mutation: String
       data: Tarea
   }
 `);

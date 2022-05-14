@@ -61,8 +61,10 @@ const resolversTareas= {
     createTask:
     {
         resolve: (payload) =>  payload.tarea,
-        subscribe: () =>  pubsub.asyncIterator([create_task])
-
+        subscribe: () =>{
+        const asyncIterator =  pubsub.asyncIterator([create_task]);
+        return asyncIterator;
+        }
     },
 },
  

@@ -4,7 +4,7 @@ const client = graphqlWs.createClient({
 
 client.subscribe(
     {
-        query: 'subscription { createTask { data { estado } } }',
+        query: 'subscription { createTask { titulo } }',
     },
     {
         next:  (data) =>{
@@ -19,29 +19,3 @@ client.subscribe(
     }
 
 )
-
-
-
-
-/*(async () => {
-    const onNext = () => {
-        console.log('on next')  //???
-    };
-    let unsubscribe = () => {
-
-    };
-
-    await new Promise((resolve, reject) => {
-        unsubscribe = client.subscribe(
-            {
-                query: 'subscription { createTask }',
-            },
-            {
-                next: onNext,
-                error: reject,
-                complete: resolve,
-            },
-        );
-    });
-    expect(onNext).toBeCalledTimes();
-})();*/
