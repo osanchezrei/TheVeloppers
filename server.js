@@ -5,29 +5,13 @@ const { graphqlHTTP }= require('express-graphql'); //grphql express
 const fileUpload= require('express-fileupload');
 const app = express(); //asignamos la funcion exprexx del paquete anterior a un variable para su manejo
 
-/*
-const { SubscriptionClient }= require('subscriptions-transport-ws');
 
-
-
-const { resolvers }=  require('./controllers/PanelController');
-const pubsub= require('./graphql/pubsub');
-const { tareasSchema }= require('./models/Tareas');
-//const { ApolloServerPluginDrainHttpServer }= require('apollo-server-core');
-
-const { WebSocketServer }= require('ws');
-const { useServer }= require('graphql-ws/lib/use/ws');
-const { createClient }= require('graphql-ws');
-*/
-
-//const { SubscriptionServer }=require('subscriptions-transport-ws');
 const { useServer }=require('graphql-ws/lib/use/ws');
 const { WebSocket }=require('ws');
 const { execute, subscribe }= require('graphql');
 const { createServer }= require('http');
 const { graphiqlExpress }= require('graphql-server-express');
 const { resolversTareas }=  require('./controllers/TareasController'); //importamos los resolvers de Tareas
-
 
 
 var http= require('http').Server(app);
@@ -70,6 +54,7 @@ const wsServer = new WebSocket.Server({
   path: '/graphql',
   port: 5000,
 });
+
 useServer(
   {
     schema,

@@ -5,3 +5,5 @@ const pubsub= new PubSub(); //instanciamos un objeto PubSub y lo hacemos exporta
 
 
 module.exports= pubsub;  //y lo hacemos exportable
+
+

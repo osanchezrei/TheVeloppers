@@ -28,7 +28,7 @@ const resolversTareas= {
     async createTarea({titulo, descripcion, estado, prioridad, idPanel }){
       const tarea= new Tarea({titulo, descripcion, estado, prioridad, idPanel });
       createdTarea= await tarea.save();
-      pubsub.publish(create_task, { tarea });
+      pubsub.publish(create_task, { id: tarea });
       return createdTarea;
   },
     async updateTarea({id, titulo, descripcion, estado, prioridad}){
@@ -55,19 +55,18 @@ const resolversTareas= {
         console.log(err)
       })
     }
-},
+  },
 
- Subscription: {
-    createTask:
-    {
-        resolve: (payload) =>  payload.tarea,
-        subscribe: () =>{
-        const asyncIterator =  pubsub.asyncIterator([create_task]);
-        return asyncIterator;
-        }
-    },
-},
- 
+  
+
+  Subscription: {
+    createTask: {
+      subscribe: () =>  pubsub.asyncIterator(create_task)
+    }
+  },
+
+  
+
 }
 
 

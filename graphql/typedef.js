@@ -19,7 +19,7 @@ const root = {
   updateTarea: resolversTareas.Mutation.updateTarea,
   deleteTarea: resolversTareas.Mutation.deleteTarea,
   deleteTareasByPanel: resolversTareas.Mutation.deleteTareasByPanel,
-  createTask: resolversTareas.Subscription.createTask
+  //createTask: resolversTareas.Subscription.createTask
 };
 
 //esquemas graphql
@@ -53,10 +53,10 @@ const schema = buildSchema(`
     deleteTarea(id: ID!): Tarea
   }
   type Subscription{
-      createTask: Tarea!
+      createTask: subscriptionPayload
   }
   type subscriptionPayload {
-      data: Tarea
+      data: String
   }
 `);
 
